@@ -7,24 +7,42 @@ document.addEventListener("DOMContentLoaded", () => {
   renderIcons();
 
   const cursorDot = document.querySelector(".cursor-dot");
-  if (cursorDot && window.matchMedia("(pointer: fine)").matches) {
+  if (cursorDot && window.matchMedia("(pointer: fine)").matches && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    let targetX = -20;
+    let targetY = -20;
     let cursorX = -20;
     let cursorY = -20;
     let cursorFrame;
-    const moveCursor = () => {
+
+    const renderCursor = () => {
+      cursorX += (targetX - cursorX) * 0.22;
+      cursorY += (targetY - cursorY) * 0.22;
       cursorDot.style.left = `${cursorX}px`;
       cursorDot.style.top = `${cursorY}px`;
-      cursorFrame = null;
+      cursorFrame = Math.abs(targetX - cursorX) > 0.1 || Math.abs(targetY - cursorY) > 0.1
+        ? requestAnimationFrame(renderCursor)
+        : null;
     };
+
+    const startCursorLoop = () => {
+      if (!cursorFrame) cursorFrame = requestAnimationFrame(renderCursor);
+    };
+
     document.addEventListener("mousemove", (event) => {
-      cursorX = event.clientX;
-      cursorY = event.clientY;
+      targetX = event.clientX;
+      targetY = event.clientY;
       cursorDot.classList.add("is-active");
       document.body.classList.add("custom-cursor-on");
-      if (!cursorFrame) cursorFrame = requestAnimationFrame(moveCursor);
+      startCursorLoop();
     }, { passive: true });
+
+    document.addEventListener("mouseover", (event) => {
+      const interactive = event.target.closest?.("a, button, .project-card, .tech-pill, .cert-note, .theme-opt, .command-btn");
+      cursorDot.classList.toggle("is-interactive", Boolean(interactive));
+    }, { passive: true });
+
     document.addEventListener("mouseleave", () => {
-      cursorDot.classList.remove("is-active");
+      cursorDot.classList.remove("is-active", "is-interactive");
       document.body.classList.remove("custom-cursor-on");
     });
   }
@@ -146,6 +164,9 @@ document.addEventListener("DOMContentLoaded", () => {
       const nextTheme = option.dataset.theme;
       if (themeTransitioning) return;
       if (nextTheme === savedTheme && isDarkTheme(nextTheme) === document.documentElement.classList.contains("dark")) return;
+      document.body.classList.add("custom-cursor-on");
+      cursorDot?.classList.add("is-theme-changing");
+      window.setTimeout(() => cursorDot?.classList.remove("is-theme-changing"), 900);
       if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || typeof document.startViewTransition !== "function") {
         applyTheme(nextTheme, { animateFallback: true });
       } else {

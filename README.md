@@ -59,8 +59,7 @@ The website is intentionally built as a static site. It does not require a build
 ├── README.md
 └── src
     ├── assets
-    │   ├── images
-    │   └── audio
+    │   └── images
     ├── css
     │   └── style.css
     └── js
