@@ -76,7 +76,8 @@ h3 { font-size: 1.2rem; font-weight: 650; }
   .cursor-dot.is-active { opacity: 0.78; }
   .cursor-dot.is-interactive { --cursor-scale: 1.9; opacity: 0.95; }
   .cursor-dot.is-theme-changing { --cursor-scale: 2.6; opacity: 1; transition-duration: 220ms, 220ms, 420ms; }
-  body.custom-cursor-on, body.custom-cursor-on * { cursor: none !important; }
+  .cursor-dot.is-clicking { --cursor-scale: 1.35; opacity: 1; transition-duration: 80ms, 80ms, 120ms; }
+  body.custom-cursor-on, body.custom-cursor-on *, body.custom-cursor-on *:active { cursor: none !important; }
   body.custom-cursor-on input, body.custom-cursor-on textarea, body.custom-cursor-on select { cursor: auto !important; }
 }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }

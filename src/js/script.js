@@ -41,6 +41,15 @@ document.addEventListener("DOMContentLoaded", () => {
       cursorDot.classList.toggle("is-interactive", Boolean(interactive));
     }, { passive: true });
 
+    document.addEventListener("pointerdown", () => {
+      document.body.classList.add("custom-cursor-on");
+      cursorDot.classList.add("is-active", "is-clicking");
+    }, { passive: true });
+
+    document.addEventListener("pointerup", () => {
+      cursorDot.classList.remove("is-clicking");
+    }, { passive: true });
+
     document.addEventListener("mouseleave", () => {
       cursorDot.classList.remove("is-active", "is-interactive");
       document.body.classList.remove("custom-cursor-on");
