@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/LSUtagamajr/Website.git"
+    "url": "git+https://github.com/devwithdel/website.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "bugs": {
-    "url": "https://github.com/LSUtagamajr/Website/issues"
+    "url": "https://github.com/devwithdel/website/issues"
   },
-  "homepage": "https://github.com/LSUtagamajr/Website#readme"
+  "homepage": "https://github.com/devwithdel/website#readme"
 }
