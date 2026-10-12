@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }, { passive: true });
 
     document.addEventListener("mouseover", (event) => {
-      const interactive = event.target.closest?.("a, button, .project-card, .tech-pill, .cert-note, .theme-opt, .command-btn");
+      const interactive = event.target.closest?.("a, button, .project-card, .stack-card, .cert-note, .theme-opt, .command-btn");
       cursorDot.classList.toggle("is-interactive", Boolean(interactive));
     }, { passive: true });
 
@@ -84,7 +84,7 @@ document.addEventListener("DOMContentLoaded", () => {
           ".section-intro",
           ".about-grid > *",
           ".project-card",
-          ".tech-pill",
+          ".stack-card",
           ".edu-item",
           ".pricing-card",
           ".cert-note",
@@ -409,16 +409,141 @@ document.addEventListener("DOMContentLoaded", () => {
 
   
 
-  // ---- Marquee: the duplicated half is decorative, hide it from AT ------
-  const techTrack = document.querySelector("#techTrack");
+  // ---- Skills: a pile of stacks; clicking one "fires" a webhook explaining it ----
+  const stackData = {
+    frontend: {
+      title: "Frontend Web",
+      body:
+        "The default stack for anything that lives in a browser. Semantic markup and CSS custom properties carry the design; JavaScript adds only the behavior that needs it.",
+      points: [
+        ["HTML5 & CSS3", "Landmark elements, fluid type scales, and container-friendly layouts that stay readable at any width."],
+        ["Tailwind CSS & Bootstrap", "Utility-first for custom builds, Bootstrap when a component library and grid are already proven."],
+        ["JavaScript (ES2022+)", "Vanilla modules, IntersectionObserver reveals, and event delegation — no framework tax on small pages."],
+      ],
+      tags: ["HTML5", "CSS3", "Tailwind CSS", "Bootstrap", "JavaScript"],
+    },
+    crossplatform: {
+      title: "Cross-platform Apps",
+      body:
+        "When one codebase has to cover both app stores, Flutter keeps the UI pixel-identical across platforms while keeping the logic in a single language.",
+      points: [
+        ["Flutter & Dart", "Declarative widgets, hot reload for fast iteration, and strong null safety from sound type analysis."],
+        ["Single UI layer", "One widget tree renders iOS, Android, and desktop without platform-specific branches."],
+        ["State management", "Provider and Riverpod patterns keep data flow explicit and easy to test."],
+      ],
+      tags: ["Flutter", "Dart", "Provider", "Material Design"],
+    },
+    backend: {
+      title: "Backend & Data",
+      body:
+        "Server-side work where correctness matters more than novelty: typed languages, explicit schemas, and boring, well-tested services.",
+      points: [
+        ["Python", "FastAPI and Django for APIs and admin-heavy backends, plus pandas and OCR scripts for document processing."],
+        ["Java", "Spring Boot services where transactions, typing, and long-term maintainability matter."],
+        ["C++", "Performance-sensitive work and algorithm practice — the layer everything else builds on."],
+      ],
+      tags: ["Python", "Java", "C++", "FastAPI", "SQL"],
+    },
+    design: {
+      title: "Design & Media",
+      body:
+        "Interfaces are designed before they're built. These tools cover wireframes, brand assets, and the marketing imagery that ships alongside the code.",
+      points: [
+        ["Figma", "Components, auto-layout, and prototype links handed straight to implementation."],
+        ["Photoshop", "Compositing and asset cleanup for imagery that has to sit perfectly on the page."],
+        ["Canva", "Fast turnaround on social graphics, banners, and presentation decks."],
+      ],
+      tags: ["Figma", "Photoshop", "Canva", "Design Systems"],
+    },
+  };
 
-  if (techTrack) {
-    const pills = Array.from(techTrack.children);
-    const half = Math.ceil(pills.length / 2);
-    pills.forEach((pill, i) => {
-      if (i >= half) pill.setAttribute("aria-hidden", "true");
-      else pill.removeAttribute("aria-hidden");
+  const stackPile = document.querySelector("#stackPile");
+  const webhook = document.querySelector("#stackWebhook");
+
+  if (stackPile && webhook) {
+    const stackCards = Array.from(stackPile.querySelectorAll(".stack-card"));
+    const webhookTitle = webhook.querySelector("#webhookTitle");
+    const webhookBody = webhook.querySelector("#webhookBody");
+    const webhookList = webhook.querySelector("#webhookList");
+    const webhookTags = webhook.querySelector("#webhookTags");
+    const webhookEndpoint = webhook.querySelector("#webhookEndpoint");
+    const webhookClose = webhook.querySelector("#webhookClose");
+
+    const renderStack = (key, index, { animate = true } = {}) => {
+      const data = stackData[key];
+      if (!data) return;
+
+      webhookTitle.textContent = data.title;
+      webhookBody.textContent = data.body;
+      webhookEndpoint.textContent = `Stack ${String(index + 1).padStart(2, "0")} of 04`;
+
+      webhookList.replaceChildren(
+        ...data.points.map(([label, detail]) => {
+          const item = document.createElement("li");
+          const strong = document.createElement("b");
+          strong.textContent = `${label}.`;
+          item.append(strong, document.createTextNode(` ${detail}`));
+          return item;
+        })
+      );
+
+      webhookTags.replaceChildren(
+        ...data.tags.map((tag) => {
+          const chip = document.createElement("span");
+          chip.textContent = tag;
+          return chip;
+        })
+      );
+
+      webhook.classList.remove("is-collapsed");
+      if (animate) {
+        webhook.classList.remove("is-refreshing");
+        void webhook.offsetWidth;
+        webhook.classList.add("is-refreshing");
+      }
+    };
+
+    stackCards.forEach((card, index) => {
+      const key = card.dataset.stack;
+
+      card.addEventListener("click", () => {
+        if (card.classList.contains("is-active")) {
+          // Clicking the top card puts it back down in the pile.
+          card.classList.remove("is-active");
+          card.setAttribute("aria-pressed", "false");
+          webhook.classList.add("is-collapsed");
+          return;
+        }
+
+        // The picked card rises; everything else recedes one step down the pile.
+        stackCards.forEach((other) => {
+          const isPicked = other === card;
+          other.classList.toggle("is-active", isPicked);
+          other.setAttribute("aria-pressed", String(isPicked));
+        });
+
+        renderStack(key, index);
+      });
     });
+
+    webhookClose.addEventListener("click", () => {
+      webhook.classList.add("is-collapsed");
+      stackCards.forEach((card) => {
+        card.classList.remove("is-active");
+        card.setAttribute("aria-pressed", "false");
+      });
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key !== "Escape") return;
+      webhook.classList.add("is-collapsed");
+    });
+
+    const initial = Math.max(
+      stackCards.findIndex((card) => card.classList.contains("is-active")),
+      0
+    );
+    renderStack(stackCards[initial].dataset.stack, initial, { animate: false });
   }
 
   // ---- Project images: degrade gracefully instead of showing a broken icon

@@ -16,7 +16,7 @@ The site focuses on Rhodell’s work, background, technologies, services, and co
 - Smooth circular theme reveal transition
 - Keyboard-accessible `Ask anything` command navigation (`Ctrl/⌘ + K`)
 - Stacked project card deck with keyboard controls
-- Continuous technology carousel with pause-on-hover/focus behavior
+- Interactive stack-of-cards skills section: click a stack to expand its details
 - Accessible certificate preview modal
 - Contact form powered by Formspree
 - Contact channels for email, GitHub, and LinkedIn
@@ -57,6 +57,8 @@ The website is intentionally built as a static site. It does not require a build
 ├── index.html
 ├── package.json
 ├── README.md
+├── scripts
+│   └── audit.mjs
 └── src
     ├── assets
     │   └── images
@@ -65,6 +67,53 @@ The website is intentionally built as a static site. It does not require a build
     └── js
         └── script.js
 ```
+
+## Testing
+
+The site has no framework and no build step, so testing is a dependency-free
+static audit that cross-checks the HTML, CSS and JavaScript against each other:
+
+```bash
+npm test          # self-test the auditor, then audit the site
+npm run audit     # audit the site only
+npm run test:audit # self-test the auditor only
+```
+
+`npm run audit` walks every `.html`, `.css` and `.js` file and reports three
+levels. It exits non-zero if there is at least one **error**.
+
+| Level | Meaning |
+| --- | --- |
+| `ERROR` | Definitely broken. Fix before publishing. |
+| `WARN` | Suspicious, or an accessibility/robustness risk. |
+| `info` | Cosmetic note, e.g. a class hook that nothing styles. |
+
+Checks performed:
+
+- **HTML** — unbalanced or mismatched tags, duplicate `id`s, missing local
+  assets, `href="#…"` anchors with no target, `aria-labelledby` /
+  `aria-describedby` / `aria-controls` pointing at missing ids, `aria-hidden`
+  on focusable elements, positive `tabindex`, skipped heading levels, missing
+  `alt`, and controls with no accessible name.
+- **CSS** — unbalanced braces, unclosed blocks, malformed declarations, invalid
+  hex colours, bad `rgb()`/`rgba()` arity, unbalanced parentheses,
+  `var(--x)` used but never defined, conflicting duplicate declarations in one
+  block, empty rules, dead selectors (a class no markup uses and no script
+  toggles), markup classes with no rule, and content that is transparent by
+  default and only revealed on `:hover`.
+- **JavaScript** — syntax errors in both external and inline scripts (checked
+  with `node --check`), and `#id` selectors passed to `querySelector` /
+  `getElementById` that match no element.
+- **Caching** — warns when `style.css` is newer than the page that links it
+  while the `?v=` cache-buster is unchanged, which is how a stale stylesheet
+  silently reaches visitors.
+
+`npm run test:audit` builds a deliberately broken site in a temporary folder
+and asserts that all 15 bug classes above are actually detected, so the checks
+cannot quietly decay into no-ops.
+
+> **Note:** bump the `?v=` query on the `<link>` to `style.css` whenever you
+> change the CSS, or visitors keep seeing the previous stylesheet.
 
 ## Run locally
 

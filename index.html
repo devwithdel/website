@@ -32,7 +32,7 @@
     />
     <script defer src="https://unpkg.com/lucide@latest"></script>
 
-    <link rel="stylesheet" href="src/css/style.css?v=3.0" />
+    <link rel="stylesheet" href="src/css/style.css?v=3.4" />
   </head>
   <body>
     <script>
@@ -274,126 +274,96 @@
           <h2 class="section-title section-title--tight">
             Technologies I Work With
           </h2>
-          <p class="section-desc section-desc--narrow">
-            A quick look at the languages, frameworks, and tools I use.
+          <p class="section-desc section-desc--wide">
+            Four stacks I reach for. Pick one to see how the pieces fit together.
           </p>
         </div>
       </div>
 
-      <div class="tech-marquee" tabindex="0" aria-label="Technologies I use. Focus to pause the carousel.">
-        <div class="tech-marquee-track" id="techTrack">
-          <div class="tech-pill" title="HTML5">
-            <i class="fa-brands fa-html5 ic-html"></i>
-            <span>HTML</span>
+      <div class="container">
+        <div class="stack-deck-layout">
+          <div class="stack-pile" id="stackPile" role="group" aria-label="Technology stacks">
+            <button
+              class="stack-card is-active"
+              type="button"
+              data-stack="frontend"
+              aria-pressed="true"
+            >
+              <span class="stack-card-index">01</span>
+              <span class="stack-card-icon"><i class="fa-solid fa-code"></i></span>
+              <span class="stack-card-title">Frontend Web</span>
+              <span class="stack-card-meta">HTML · CSS · JavaScript</span>
+              <span class="stack-card-cta" aria-hidden="true"><i class="fa-solid fa-chevron-right"></i></span>
+            </button>
+
+            <button
+              class="stack-card"
+              type="button"
+              data-stack="crossplatform"
+              aria-pressed="false"
+            >
+              <span class="stack-card-index">02</span>
+              <span class="stack-card-icon"><i class="fa-solid fa-mobile-screen"></i></span>
+              <span class="stack-card-title">Cross-platform Apps</span>
+              <span class="stack-card-meta">Flutter · Dart</span>
+              <span class="stack-card-cta" aria-hidden="true"><i class="fa-solid fa-chevron-right"></i></span>
+            </button>
+
+            <button
+              class="stack-card"
+              type="button"
+              data-stack="backend"
+              aria-pressed="false"
+            >
+              <span class="stack-card-index">03</span>
+              <span class="stack-card-icon"><i class="fa-solid fa-server"></i></span>
+              <span class="stack-card-title">Backend &amp; Data</span>
+              <span class="stack-card-meta">Python · Java · C++</span>
+              <span class="stack-card-cta" aria-hidden="true"><i class="fa-solid fa-chevron-right"></i></span>
+            </button>
+
+            <button
+              class="stack-card"
+              type="button"
+              data-stack="design"
+              aria-pressed="false"
+            >
+              <span class="stack-card-index">04</span>
+              <span class="stack-card-icon"><i class="fa-solid fa-palette"></i></span>
+              <span class="stack-card-title">Design &amp; Media</span>
+              <span class="stack-card-meta">Figma · Canva · Photoshop</span>
+              <span class="stack-card-cta" aria-hidden="true"><i class="fa-solid fa-chevron-right"></i></span>
+            </button>
           </div>
-          <div class="tech-pill" title="CSS3">
-            <i class="fa-brands fa-css3-alt ic-css"></i>
-            <span>CSS</span>
-          </div>
-          <div class="tech-pill" title="JavaScript">
-            <i class="fa-brands fa-js ic-js"></i>
-            <span>JavaScript</span>
-          </div>
-          <div class="tech-pill" title="React">
-            <i class="fa-brands fa-react ic-react"></i>
-            <span>React</span>
-          </div>
-          <div class="tech-pill" title="Bootstrap">
-            <i class="fa-brands fa-bootstrap ic-bootstrap"></i>
-            <span>Bootstrap</span>
-          </div>
-          <div class="tech-pill" title="Tailwind CSS">
-            <i class="fa-brands fa-css3 ic-tailwind"></i>
-            <span>Tailwind CSS</span>
-          </div>
-          <div class="tech-pill" title="Python">
-            <i class="fa-brands fa-python ic-python"></i>
-            <span>Python</span>
-          </div>
-          <div class="tech-pill" title="Java">
-            <i class="fa-brands fa-java ic-java"></i>
-            <span>Java</span>
-          </div>
-          <div class="tech-pill" title="C++">
-            <i class="fa-solid fa-code ic-cpp"></i>
-            <span>C++</span>
-          </div>
-          <div class="tech-pill" title="Photoshop">
-            <i class="fa-solid fa-pen-nib ic-photoshop"></i>
-            <span>Photoshop</span>
-          </div>
-          <div class="tech-pill" title="Flutter">
-            <i class="fa-solid fa-mobile-screen ic-flutter"></i>
-            <span>Flutter</span>
-          </div>
-          <div class="tech-pill" title="Dart">
-            <i class="fa-solid fa-bullseye ic-dart"></i>
-            <span>Dart</span>
-          </div>
-          <div class="tech-pill" title="Figma">
-            <i class="fa-brands fa-figma ic-figma"></i>
-            <span>Figma</span>
-          </div>
-          <div class="tech-pill" title="Canva">
-            <i class="fa-solid fa-palette ic-canva"></i>
-            <span>Canva</span>
-          </div>
-          <div class="tech-pill" title="HTML5" aria-hidden="true">
-            <i class="fa-brands fa-html5 ic-html"></i>
-            <span>HTML</span>
-          </div>
-          <div class="tech-pill" title="CSS3" aria-hidden="true">
-            <i class="fa-brands fa-css3-alt ic-css"></i>
-            <span>CSS</span>
-          </div>
-          <div class="tech-pill" title="JavaScript" aria-hidden="true">
-            <i class="fa-brands fa-js ic-js"></i>
-            <span>JavaScript</span>
-          </div>
-          <div class="tech-pill" title="React" aria-hidden="true">
-            <i class="fa-brands fa-react ic-react"></i>
-            <span>React</span>
-          </div>
-          <div class="tech-pill" title="Bootstrap" aria-hidden="true">
-            <i class="fa-brands fa-bootstrap ic-bootstrap"></i>
-            <span>Bootstrap</span>
-          </div>
-          <div class="tech-pill" title="Tailwind CSS" aria-hidden="true">
-            <i class="fa-brands fa-css3 ic-tailwind"></i>
-            <span>Tailwind CSS</span>
-          </div>
-          <div class="tech-pill" title="Python" aria-hidden="true">
-            <i class="fa-brands fa-python ic-python"></i>
-            <span>Python</span>
-          </div>
-          <div class="tech-pill" title="Java" aria-hidden="true">
-            <i class="fa-brands fa-java ic-java"></i>
-            <span>Java</span>
-          </div>
-          <div class="tech-pill" title="C++" aria-hidden="true">
-            <i class="fa-solid fa-code ic-cpp"></i>
-            <span>C++</span>
-          </div>
-          <div class="tech-pill" title="Photoshop" aria-hidden="true">
-            <i class="fa-solid fa-pen-nib ic-photoshop"></i>
-            <span>Photoshop</span>
-          </div>
-          <div class="tech-pill" title="Flutter" aria-hidden="true">
-            <i class="fa-solid fa-mobile-screen ic-flutter"></i>
-            <span>Flutter</span>
-          </div>
-          <div class="tech-pill" title="Dart" aria-hidden="true">
-            <i class="fa-solid fa-bullseye ic-dart"></i>
-            <span>Dart</span>
-          </div>
-          <div class="tech-pill" title="Figma" aria-hidden="true">
-            <i class="fa-brands fa-figma ic-figma"></i>
-            <span>Figma</span>
-          </div>
-          <div class="tech-pill" title="Canva" aria-hidden="true">
-            <i class="fa-solid fa-palette ic-canva"></i>
-            <span>Canva</span>
-          </div>
+
+          <aside
+            class="stack-webhook"
+            id="stackWebhook"
+            aria-live="polite"
+            aria-label="Stack details"
+          >
+            <div class="webhook-head">
+              <span class="webhook-status">
+                <span class="status-dot" aria-hidden="true"></span>
+                <span id="webhookEndpoint">Frontend Web</span>
+              </span>
+              <button
+                class="webhook-close"
+                type="button"
+                id="webhookClose"
+                aria-label="Close stack details"
+              >
+                <i class="fa-solid fa-xmark"></i>
+              </button>
+            </div>
+
+            <h3 class="webhook-title" id="webhookTitle">Frontend Web</h3>
+            <p class="webhook-body" id="webhookBody"></p>
+
+            <ul class="webhook-list" id="webhookList"></ul>
+
+            <div class="webhook-tags" id="webhookTags"></div>
+          </aside>
         </div>
       </div>
     </section>

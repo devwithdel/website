@@ -4,7 +4,10 @@
   "description": "This is the official website portfolio of Rhodell A. Tagama Jr., a 3rd year BSIT student at La Salle University - Ozamiz whos excellence expands at developing and creating innovations that could help resolve real-world problem.",
   "main": "script.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node scripts/audit.mjs --self-test && node scripts/audit.mjs",
+    "audit": "node scripts/audit.mjs",
+    "test:audit": "node scripts/audit.mjs --self-test",
+    "serve": "npx --yes serve -l 5050 ."
   },
   "repository": {
     "type": "git",
